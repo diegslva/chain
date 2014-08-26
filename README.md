@@ -1,4 +1,4 @@
 chain
 =====
 
-Chain.com Go (golang) web interface.
+Chain.com Go (golang) Bitcoin web interface.
