@@ -26,10 +26,6 @@ type Chain struct {
 	apiKeySecret string
 }
 
-type Item interface {
-	load(c *Chain) error
-}
-
 func New(c *http.Client, n Network, apiKeyID, apiKeySecret string) *Chain {
 	return &Chain{c, n, apiKeyID, apiKeySecret}
 }
@@ -60,10 +56,6 @@ func checkHTTPResponse(r *http.Response) error {
 	}
 
 	return fmt.Errorf("%s: %s: %.30q...", r.Request.URL, r.Status, errData)
-}
-
-func (c *Chain) Request(item Item) error {
-	return item.load(c)
 }
 
 func (c *Chain) httpGetJSON(url string, v interface{}) error {
