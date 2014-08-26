@@ -58,21 +58,34 @@ func (c *Chain) sendTransactionURL() string {
 func (c *Chain) SendTransaction(hex string) (string, error) {
 	url := c.sendTransactionURL()
 
-	hexMessage := struct {
+	jsonRequest := struct {
 		Hex string `json:"hex"`
 	}{hex}
 
-	data, err := json.Marshal(hexMessage)
+	requestBody, err := json.Marshal(jsonRequest)
 	if err != nil {
 		return "", err
 	}
-	response, err := c.httpPut(url, bytes.NewReader(data))
+	response, err := c.httpPut(url, bytes.NewReader(requestBody))
 	if err != nil {
 		return "", err
 	}
-	hash, err := ioutil.ReadAll(response)
+
+	responseBody, err := ioutil.ReadAll(response)
 	if err != nil {
 		return "", err
 	}
-	return string(hash), nil
+	jsonResponse := struct {
+		TransactionHash string `json:"transaction_hash"`
+	}{}
+
+	if err := json.Unmarshal(responseBody, &jsonResponse); err != nil {
+		return "", err
+	}
+
+	responseString := string(responseBody)
+	if jsonResponse.TransactionHash != "" {
+		return jsonResponse.TransactionHash, nil
+	}
+	return "", fmt.Errorf("unknown response %s", responseString)
 }
