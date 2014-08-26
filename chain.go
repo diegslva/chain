@@ -79,7 +79,6 @@ func (c *Chain) httpGetJSON(url string, v interface{}) error {
 	}
 
 	if err := checkHTTPResponse(resp); err != nil {
-		fmt.Println("here", err)
 		return err
 	}
 
