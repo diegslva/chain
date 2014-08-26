@@ -47,16 +47,16 @@ func checkHTTPResponse(r *http.Response) error {
 
 	jsonError := struct {
 		Message string
-        Error string
+		Error   string
 	}{}
 	if err := json.Unmarshal(errData, &jsonError); err == nil {
-        message := string(errData)
-        if jsonError.Message != "" {
-            message = jsonError.Message
-        } else if jsonError.Error != "" {
-            message = jsonError.Error
-        }
-        return errors.New(message)
+		message := string(errData)
+		if jsonError.Message != "" {
+			message = jsonError.Message
+		} else if jsonError.Error != "" {
+			message = jsonError.Error
+		}
+		return errors.New(message)
 	}
 
 	return fmt.Errorf("%s: %s: %.30q...", r.Request.URL, r.Status, errData)
@@ -79,7 +79,7 @@ func (c *Chain) httpGetJSON(url string, v interface{}) error {
 	}
 
 	if err := checkHTTPResponse(resp); err != nil {
-        fmt.Println("here", err)
+		fmt.Println("here", err)
 		return err
 	}
 
