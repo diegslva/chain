@@ -61,7 +61,8 @@ func (c *Chain) UpdateWebhook(id, url string) (Webhook, error) {
 
 // DeleteWebhook deletes a Webhook and all associated Webhook Events.
 //
-// https://chain.com/docs#webhooks-delete
+// Chain.com documentation can be found here
+// https://chain.com/docs#webhooks-delete.
 func (c *Chain) DeleteWebhook(id string) ([]Webhook, error) {
 	url := fmt.Sprintf("%s/webhooks/%s", c.network, id)
 
