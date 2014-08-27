@@ -5,7 +5,7 @@ import (
 )
 
 func TestGetAddress(t *testing.T) {
-	c := newTestChain()
+	c := newTestChain(t)
 
 	a, err := c.GetAddress("msk1uz21sUAXdmgqUiWvkRBLNfL1SXatyj")
 	if err != nil {
@@ -29,7 +29,7 @@ func TestGetAddressMulti(t *testing.T) {
 		"n4CyDypGn7jyfKamweA26gQyJGm2HwWbmE",
 	}
 
-	c := newTestChain()
+	c := newTestChain(t)
 	addrs, err := c.GetAddressMulti(hashes)
 	if err != nil {
 		t.Fatal(err)
@@ -57,7 +57,7 @@ func TestGetAddressMulti(t *testing.T) {
 }
 
 func TestGetAddressError(t *testing.T) {
-	c := newTestChain()
+	c := newTestChain(t)
 	if _, err := c.GetAddress("fake address"); err == nil {
 		t.Fatal("expected an error")
 	} else {
@@ -66,7 +66,7 @@ func TestGetAddressError(t *testing.T) {
 }
 
 func TestGetAddressTransactions(t *testing.T) {
-	c := newTestChain()
+	c := newTestChain(t)
 	txns, err := c.GetAddressTransactions(
 		"n4CyDypGn7jyfKamweA26gQyJGm2HwWbmE", 1)
 	if err != nil {

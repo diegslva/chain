@@ -64,6 +64,19 @@ func (c *Chain) httpGetJSON(url string, v interface{}) error {
 	if err != nil {
 		return err
 	}
+	return c.doRequest(req, v)
+}
+
+func (c *Chain) httpDeleteJSON(url string, v interface{}) error {
+
+	req, err := http.NewRequest("DELETE", url, nil)
+	if err != nil {
+		return err
+	}
+	return c.doRequest(req, v)
+}
+
+func (c *Chain) doRequest(req *http.Request, v interface{}) error {
 	req.SetBasicAuth(c.apiKeyID, c.apiKeySecret)
 	resp, err := c.client.Do(req)
 	if err != nil {
@@ -78,12 +91,25 @@ func (c *Chain) httpGetJSON(url string, v interface{}) error {
 	return decodeJSON(resp.Body, v)
 }
 
-func (c *Chain) httpPut(url string, body io.Reader) (io.ReadCloser, error) {
+func (c *Chain) httpPostJSON(url string,
+	body io.Reader) (io.ReadCloser, error) {
+	req, err := http.NewRequest("POST", url, body)
+	if err != nil {
+		return nil, err
+	}
+	return c.doRequestWithBody(req)
+}
 
+func (c *Chain) httpPutJSON(url string, body io.Reader) (io.ReadCloser, error) {
 	req, err := http.NewRequest("PUT", url, body)
 	if err != nil {
 		return nil, err
 	}
+	return c.doRequestWithBody(req)
+}
+
+func (c *Chain) doRequestWithBody(req *http.Request) (io.ReadCloser, error) {
+	req.Header.Add("Content-Type", "application/json")
 	req.SetBasicAuth(c.apiKeyID, c.apiKeySecret)
 	resp, err := c.client.Do(req)
 	if err != nil {

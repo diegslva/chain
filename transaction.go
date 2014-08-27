@@ -66,7 +66,7 @@ func (c *Chain) SendTransaction(hex string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	response, err := c.httpPut(url, bytes.NewReader(requestBody))
+	response, err := c.httpPutJSON(url, bytes.NewReader(requestBody))
 	if err != nil {
 		return "", err
 	}
