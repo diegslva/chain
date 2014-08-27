@@ -7,11 +7,17 @@ import (
 	"io/ioutil"
 )
 
+// Webhook represents a JSON webhook response returned from Chain's server.
 type Webhook struct {
 	ID  string `json:"id"`
 	URL string `json:"url"`
 }
 
+// CreateWebhook creates a Webhook that can receive POST requests from
+// WebhookEvents.
+//
+// Chain documentation can be found here
+// https://chain.com/docs#webhooks-create.
 func (c *Chain) CreateWebhook(id, url string) (Webhook, error) {
 	endpointURL := fmt.Sprintf("%s/webhooks", c.network)
 	requestBody, err := json.Marshal(&Webhook{id, endpointURL})
@@ -33,11 +39,20 @@ func (c *Chain) CreateWebhook(id, url string) (Webhook, error) {
 	return wh, nil
 }
 
+// ListWebhooks list all of the Webhooks associated with a Chain API KEY.
+// 
+// Chain documentation can be found here
+// https://chain.com/docs#webhooks-list.
 func (c *Chain) ListWebhooks() ([]Webhook, error) {
 	url, webhooks := fmt.Sprintf("%s/webhooks", c.network), []Webhook{}
 	return webhooks, c.httpGetJSON(url, &webhooks)
 }
 
+// UpdateWebhook updates the URL of a Webhook. This is useful if you need to
+// change the URL that supports many associated Webhook Events.
+//
+// Chain documentation can be found here
+// https://chain.com/docs#webhooks-update.
 func (c *Chain) UpdateWebhook(id, url string) (Webhook, error) {
 	endpointURL := fmt.Sprintf("%s/webhooks/%s", c.network, id)
 	requestBody, err := json.Marshal(&Webhook{id, endpointURL})
@@ -61,7 +76,7 @@ func (c *Chain) UpdateWebhook(id, url string) (Webhook, error) {
 
 // DeleteWebhook deletes a Webhook and all associated Webhook Events.
 //
-// Chain.com documentation can be found here
+// Chain documentation can be found here
 // https://chain.com/docs#webhooks-delete.
 func (c *Chain) DeleteWebhook(id string) ([]Webhook, error) {
 	url := fmt.Sprintf("%s/webhooks/%s", c.network, id)
