@@ -16,17 +16,17 @@ type Block struct {
 	TransactionHashes []string `json:"transaction_hashes"`
 }
 
-func (c *Chain) BlockByHash(hash string) (Block, error) {
+func (c *Chain) GetBlockByHash(hash string) (Block, error) {
 	url, block := fmt.Sprintf("%s/blocks/%s", c.network, hash), Block{}
 	return block, c.httpGetJSON(url, &block)
 }
 
-func (c *Chain) BlockByHeight(height uint64) (Block, error) {
+func (c *Chain) GetBlockByHeight(height uint64) (Block, error) {
 	url, block := fmt.Sprintf("%s/blocks/%d", c.network, height), Block{}
 	return block, c.httpGetJSON(url, &block)
 }
 
-func (c *Chain) LatestBlock() (Block, error) {
+func (c *Chain) GetLatestBlock() (Block, error) {
 	url, block := fmt.Sprintf("%s/blocks/latest", c.network), Block{}
 	return block, c.httpGetJSON(url, &block)
 }
