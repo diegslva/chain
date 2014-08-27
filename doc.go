@@ -19,8 +19,7 @@ Example
     )
 
     func main() {
-        c := chain.New(http.DefaultClient, chain.MainNet,
-            [apiKeyID], [apiKeySecret])
+        c := chain.New(http.DefaultClient, chain.MainNet, [apiKeyID], [apiKeySecret])
         block, err := c.GetLatestBlock()
         if err != nil {
             panic(err)

@@ -11,13 +11,21 @@ import (
 
 const rootURL = "https://api.chain.com/v1"
 
+// Network is used to let the Chain context know when network it should
+// connect to.
 type Network string
 
 var (
+	// TestNet3 is used to make the Chain context connect to the Bitcon
+	// TestNet3 network.
 	TestNet3 Network = rootURL + "/testnet3"
-	MainNet  Network = rootURL + "/bitcoin"
+
+	// MainNet is used to make the Chain context to connect to the Bitcon
+	// MainNet network.
+	MainNet Network = rootURL + "/bitcoin"
 )
 
+// Chain contains the context for connecting with the Chain.com API endpoints.
 type Chain struct {
 	client  *http.Client
 	network Network
@@ -26,6 +34,7 @@ type Chain struct {
 	apiKeySecret string
 }
 
+// New creates a new chain object.
 func New(c *http.Client, n Network, apiKeyID, apiKeySecret string) *Chain {
 	return &Chain{c, n, apiKeyID, apiKeySecret}
 }

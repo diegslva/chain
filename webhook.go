@@ -40,7 +40,7 @@ func (c *Chain) CreateWebhook(id, url string) (Webhook, error) {
 }
 
 // ListWebhooks list all of the Webhooks associated with a Chain API KEY.
-// 
+//
 // Chain documentation can be found here
 // https://chain.com/docs#webhooks-list.
 func (c *Chain) ListWebhooks() ([]Webhook, error) {
