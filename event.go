@@ -3,7 +3,6 @@ package chain
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io/ioutil"
 )
@@ -43,22 +42,12 @@ func (c *Chain) CreateWebhookEvent(webhookID string, event WebhookEventType,
 	weResponse := WebhookEvent{}
 	url := fmt.Sprintf("%s/webhooks/%s/events", baseURL, webhookID)
 
-	var blockChain string
-	switch network {
-	case TestNet3:
-		blockChain = "testnet3"
-	case MainNet:
-		blockChain = "bitcoin"
-	default:
-		return weResponse, errors.New("unknown network")
-	}
-
 	jsonRequest := struct {
 		Event         string
 		BlockChain    string `json:"block_chain"`
 		Address       string
 		Confirmations int64
-	}{string(event), blockChain, address, confirmations}
+	}{string(event), string(network), address, confirmations}
 	requestBody, err := json.Marshal(&jsonRequest)
 
 	if err != nil {
