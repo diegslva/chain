@@ -41,7 +41,7 @@ func (c *Chain) CreateWebhookEvent(webhookID string, event WebhookEventType,
 	confirmations int64) (WebhookEvent, error) {
 
 	weResponse := WebhookEvent{}
-	url := fmt.Sprintf("%s/webhooks/%s/events", c.network, webhookID)
+	url := fmt.Sprintf("%s/webhooks/%s/events", baseURL, webhookID)
 
 	var blockChain string
 	switch network {
@@ -82,7 +82,7 @@ func (c *Chain) CreateWebhookEvent(webhookID string, event WebhookEventType,
 // Chain documentation can be found here
 // https://chain.com/docs#webhooks-event-list.
 func (c *Chain) ListWebhookEvents(webhookID string) ([]WebhookEvent, error) {
-	url := fmt.Sprintf("%s/webhooks/%s/events", c.network, webhookID)
+	url := fmt.Sprintf("%s/webhooks/%s/events", baseURL, webhookID)
 
 	webhookEvents := []WebhookEvent{}
 	return webhookEvents, c.httpGetJSON(url, &webhookEvents)
@@ -96,7 +96,7 @@ func (c *Chain) ListWebhookEvents(webhookID string) ([]WebhookEvent, error) {
 func (c *Chain) DeleteWebhookEvent(
 	webhookID, eventType, address string) (WebhookEvent, error) {
 	url := fmt.Sprintf("%s/webhooks/%s/events/%s/%s",
-		c.network, webhookID, eventType, address)
+		baseURL, webhookID, eventType, address)
 
 	we := WebhookEvent{}
 	return we, c.httpDeleteJSON(url, &we)

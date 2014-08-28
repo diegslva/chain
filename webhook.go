@@ -19,7 +19,7 @@ type Webhook struct {
 // Chain documentation can be found here
 // https://chain.com/docs#webhooks-create.
 func (c *Chain) CreateWebhook(id, url string) (Webhook, error) {
-	endpointURL := fmt.Sprintf("%s/webhooks", c.network)
+	endpointURL := fmt.Sprintf("%s/webhooks", baseURL)
 	requestBody, err := json.Marshal(&Webhook{id, endpointURL})
 
 	wh := Webhook{}
@@ -44,7 +44,7 @@ func (c *Chain) CreateWebhook(id, url string) (Webhook, error) {
 // Chain documentation can be found here
 // https://chain.com/docs#webhooks-list.
 func (c *Chain) ListWebhooks() ([]Webhook, error) {
-	url, webhooks := fmt.Sprintf("%s/webhooks", c.network), []Webhook{}
+	url, webhooks := fmt.Sprintf("%s/webhooks", baseURL), []Webhook{}
 	return webhooks, c.httpGetJSON(url, &webhooks)
 }
 
@@ -54,7 +54,7 @@ func (c *Chain) ListWebhooks() ([]Webhook, error) {
 // Chain documentation can be found here
 // https://chain.com/docs#webhooks-update.
 func (c *Chain) UpdateWebhook(id, url string) (Webhook, error) {
-	endpointURL := fmt.Sprintf("%s/webhooks/%s", c.network, id)
+	endpointURL := fmt.Sprintf("%s/webhooks/%s", baseURL, id)
 	requestBody, err := json.Marshal(&Webhook{id, endpointURL})
 
 	wh := Webhook{}
@@ -79,7 +79,7 @@ func (c *Chain) UpdateWebhook(id, url string) (Webhook, error) {
 // Chain documentation can be found here
 // https://chain.com/docs#webhooks-delete.
 func (c *Chain) DeleteWebhook(id string) ([]Webhook, error) {
-	url := fmt.Sprintf("%s/webhooks/%s", c.network, id)
+	url := fmt.Sprintf("%s/webhooks/%s", baseURL, id)
 
 	webhooks := []Webhook{}
 	return webhooks, c.httpDeleteJSON(url, &webhooks)

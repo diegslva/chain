@@ -9,20 +9,19 @@ import (
 	"net/http"
 )
 
-const rootURL = "https://api.chain.com/v1"
-
 // Network is used to let the Chain context know when network it should
 // connect to.
 type Network string
 
-var (
+const (
+	baseURL = "https://api.chain.com/v1"
 	// TestNet3 is used to make the Chain context connect to the Bitcon
 	// TestNet3 network.
-	TestNet3 Network = rootURL + "/testnet3"
+	TestNet3 Network = "testnet3"
 
 	// MainNet is used to make the Chain context to connect to the Bitcon
 	// MainNet network.
-	MainNet Network = rootURL + "/bitcoin"
+	MainNet Network = "bitcoin"
 )
 
 // Chain contains the context for connecting with the Chain.com API endpoints.
@@ -64,7 +63,7 @@ func checkHTTPResponse(r *http.Response) error {
 		return errors.New(message)
 	}
 
-	return fmt.Errorf("%s: %s: %.30q...", r.Request.URL, r.Status, errData)
+	return fmt.Errorf("%s: %s: %.30q", r.Request.URL, r.Status, errData)
 }
 
 func (c *Chain) httpGetJSON(url string, v interface{}) error {
@@ -138,7 +137,7 @@ func decodeJSON(r io.Reader, v interface{}) error {
 	}
 
 	if err := json.Unmarshal(data, v); err != nil {
-		return fmt.Errorf("%s with data %.30q...", err.Error(), data)
+		return fmt.Errorf("%s with data %.30q", err.Error(), data)
 	}
 	return nil
 }

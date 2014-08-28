@@ -49,7 +49,8 @@ type Transaction struct {
 }
 
 func (c *Chain) transactionURL(hash string) string {
-	return fmt.Sprintf("%s/transactions/%s", c.network, hash)
+	return fmt.Sprintf("%s/%s/transactions/%s",
+		baseURL, c.network, hash)
 }
 
 // GetTransaction returns details about a Bitcoin transaction, including
@@ -63,7 +64,8 @@ func (c *Chain) GetTransaction(hash string) (Transaction, error) {
 }
 
 func (c *Chain) sendTransactionURL() string {
-	return fmt.Sprintf("%s/transactions", c.network)
+	return fmt.Sprintf("%s/%s/transactions",
+		baseURL, c.network)
 }
 
 // SendTransaction accepts a signed transaction in hex format and sends it to

@@ -25,7 +25,8 @@ type Block struct {
 // Chain documentation can be found here
 // https://chain.com/docs#bitcoin-block.
 func (c *Chain) GetBlockByHash(hash string) (Block, error) {
-	url, block := fmt.Sprintf("%s/blocks/%s", c.network, hash), Block{}
+	url, block := fmt.Sprintf("%s/%s/blocks/%s",
+		baseURL, c.network, hash), Block{}
 	return block, c.httpGetJSON(url, &block)
 }
 
@@ -34,7 +35,8 @@ func (c *Chain) GetBlockByHash(hash string) (Block, error) {
 // Chain documentation can be found here
 // https://chain.com/docs#bitcoin-block.
 func (c *Chain) GetBlockByHeight(height uint64) (Block, error) {
-	url, block := fmt.Sprintf("%s/blocks/%d", c.network, height), Block{}
+	url, block := fmt.Sprintf("%s/%s/blocks/%d",
+		baseURL, c.network, height), Block{}
 	return block, c.httpGetJSON(url, &block)
 }
 
@@ -43,6 +45,7 @@ func (c *Chain) GetBlockByHeight(height uint64) (Block, error) {
 // Chain documentation can be found here
 // https://chain.com/docs#bitcoin-block.
 func (c *Chain) GetLatestBlock() (Block, error) {
-	url, block := fmt.Sprintf("%s/blocks/latest", c.network), Block{}
+	url, block := fmt.Sprintf("%s/%s/blocks/latest",
+		baseURL, c.network), Block{}
 	return block, c.httpGetJSON(url, &block)
 }

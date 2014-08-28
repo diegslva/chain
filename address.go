@@ -35,7 +35,8 @@ type Address struct {
 }
 
 func (c *Chain) addressURL(hashes []string) string {
-	return fmt.Sprintf("%s/addresses/%s", c.network, strings.Join(hashes, ","))
+	return fmt.Sprintf("%s/%s/addresses/%s",
+		baseURL, c.network, strings.Join(hashes, ","))
 }
 
 // GetAddressMulti allows you to get multiple addresses with one API call.
@@ -62,8 +63,8 @@ func (c *Chain) GetAddress(hash string) (Address, error) {
 }
 
 func (c *Chain) addressTransactionsURL(hashes []string, limit int) string {
-	return fmt.Sprintf("%s/addresses/%s/transactions?limit=%d",
-		c.network, strings.Join(hashes, ","), limit)
+	return fmt.Sprintf("%s/%s/addresses/%s/transactions?limit=%d",
+		baseURL, c.network, strings.Join(hashes, ","), limit)
 }
 
 // GetAddressTransactionsMulti returns a set of transactions for one or more
@@ -102,8 +103,8 @@ func (c *Chain) GetAddressTransactions(
 }
 
 func (c *Chain) addressUnspentOutputsURL(hashes []string) string {
-	return fmt.Sprintf("%s/addresses/%s/unspents",
-		c.network, strings.Join(hashes, ","))
+	return fmt.Sprintf("%s/%s/addresses/%s/unspents",
+		baseURL, c.network, strings.Join(hashes, ","))
 }
 
 // GetAddressUnspentOutputsMulti returns a collection of unspent outputs for
