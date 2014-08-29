@@ -6,7 +6,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/intusco/chain"
+	"github.com/qedus/chain"
 )
 
 func newTestChain(t *testing.T) *chain.Chain {
