@@ -15,7 +15,7 @@ Example
         "fmt"
         "net/http"
 
-        "github.com/intusco/chain"
+        "github.com/qedus/chain"
     )
 
     func main() {
