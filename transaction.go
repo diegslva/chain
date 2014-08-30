@@ -119,7 +119,8 @@ func (c *Chain) GetTransactionMulti(hashes []string) ([]Transaction, error) {
 
 // SendTransaction accepts a signed transaction in hex format and sends it to
 // the Bitcoin network. See http://blog.chain.com/post/86529167421/sending-bitcoin-transactions-with-node-js
-// for information on creating and signing raw transactions.
+// for information on creating and signing raw transactions. The transaction
+// hash is returned on a successful send.
 //
 // Chain documentation can be found here
 // https://chain.com/docs#bitcoin-transaction-send.
