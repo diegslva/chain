@@ -25,8 +25,8 @@ type Block struct {
 // Chain documentation can be found here
 // https://chain.com/docs#bitcoin-block.
 func (c *Chain) GetBlockByHash(hash string) (Block, error) {
-	url, block := fmt.Sprintf("%s/%s/blocks/%s",
-		baseURL, c.network, hash), Block{}
+	url := fmt.Sprintf("%s/%s/blocks/%s", baseURL, c.network, hash)
+	block := Block{}
 	return block, c.httpGetJSON(url, &block)
 }
 

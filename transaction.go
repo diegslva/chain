@@ -7,6 +7,10 @@ import (
 	"io/ioutil"
 )
 
+// GetTransactionMultiWorkers determines how many worker go routines are used
+// concurrently to get transactions from the Chain.com API endpoint.
+const GetTransactionMultiWorkers = 5
+
 // Input represents a Bitcoin transaction input.
 type Input struct {
 	TransactionHash string `json:"transaction_hash"`
@@ -66,6 +70,52 @@ func (c *Chain) GetTransaction(hash string) (Transaction, error) {
 func (c *Chain) sendTransactionURL() string {
 	return fmt.Sprintf("%s/%s/transactions",
 		baseURL, c.network)
+}
+
+// GetTransactionMulti returns a Transaction slice for all the TransactionHashes
+// within the block. Note that it currently calls the chain.com API endpoint
+// multiple times. This function produces an error if any of the API endpoint
+// calls fails.
+func (c *Chain) GetTransactionMulti(hashes []string) ([]Transaction, error) {
+	type request struct {
+		index int
+		hash  string
+	}
+	type response struct {
+		index int
+		tx    Transaction
+		err   error
+	}
+
+	txns := make([]Transaction, len(hashes))
+	requestChan := make(chan request, len(hashes))
+	responseChan := make(chan response)
+
+	for i := 0; i < GetTransactionMultiWorkers; i++ {
+		go func() {
+			for req := range requestChan {
+				fmt.Println(req.hash)
+				tx, err := c.GetTransaction(req.hash)
+				responseChan <- response{req.index, tx, err}
+			}
+		}()
+	}
+
+	for i, hash := range hashes {
+		requestChan <- request{i, hash}
+	}
+	close(requestChan)
+
+	defer close(responseChan)
+	for i := 0; i < len(hashes); i++ {
+		resp := <-responseChan
+		if resp.err != nil {
+			return txns, resp.err
+		}
+		txns[resp.index] = resp.tx
+	}
+
+	return txns, nil
 }
 
 // SendTransaction accepts a signed transaction in hex format and sends it to
