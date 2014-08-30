@@ -9,6 +9,8 @@ on how to setup your system.
 
 Example
 
+Executing an endpoint call to get the latest block:
+
     package main
 
     import (
