@@ -94,7 +94,6 @@ func (c *Chain) GetTransactionMulti(hashes []string) ([]Transaction, error) {
 	for i := 0; i < GetTransactionMultiWorkers; i++ {
 		go func() {
 			for req := range requestChan {
-				fmt.Println(req.hash)
 				tx, err := c.GetTransaction(req.hash)
 				responseChan <- response{req.index, tx, err}
 			}
