@@ -19,6 +19,9 @@ type Input struct {
 	Value           int64
 	Addresses       []string
 	ScriptSignature string `json:"script_signature"`
+
+	// Only populated with coinbase transactions.
+	Coinbase string
 }
 
 // Output represents a Bitcoin transaction output.

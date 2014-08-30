@@ -10,7 +10,7 @@ import (
 // https://chain.com/docs#object-bitcoin-block.
 type Block struct {
 	Hash              string
-	PreviousHash string `json:"previous_block_hash"`
+	PreviousHash      string `json:"previous_block_hash"`
 	Height            int64
 	Confirmations     int64
 	MerkleRoot        string `json:"merkle_root"`
