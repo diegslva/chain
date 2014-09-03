@@ -55,6 +55,10 @@ type Transaction struct {
 	Confirmations int64
 }
 
+func (t *Transaction) IsCoinbase() bool {
+    return t.Inputs[0].Coinbase != ""
+}
+
 func (c *Chain) transactionURL(hash string) string {
 	return fmt.Sprintf("%s/%s/transactions/%s",
 		baseURL, c.network, hash)
