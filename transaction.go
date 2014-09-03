@@ -55,10 +55,6 @@ type Transaction struct {
 	Confirmations int64
 }
 
-func (t *Transaction) IsCoinbase() bool {
-    return t.Inputs[0].Coinbase != ""
-}
-
 func (c *Chain) transactionURL(hash string) string {
 	return fmt.Sprintf("%s/%s/transactions/%s",
 		baseURL, c.network, hash)
@@ -95,6 +91,7 @@ func (c *Chain) GetTransactionMulti(hashes []string) ([]Transaction, error) {
 	}
 
 	txns := make([]Transaction, len(hashes))
+	errs := make(MultiError, len(hashes))
 	requestChan := make(chan request, len(hashes))
 	responseChan := make(chan response)
 
@@ -112,15 +109,21 @@ func (c *Chain) GetTransactionMulti(hashes []string) ([]Transaction, error) {
 	}
 	close(requestChan)
 
-	defer close(responseChan)
+	isErrors := false
 	for i := 0; i < len(hashes); i++ {
 		resp := <-responseChan
-		if resp.err != nil {
-			return txns, resp.err
-		}
-		txns[resp.index] = resp.tx
-	}
 
+		txns[resp.index] = resp.tx
+		if resp.err != nil {
+			isErrors = true
+		}
+		errs[resp.index] = resp.err
+	}
+	close(responseChan)
+
+	if isErrors {
+		return txns, errs
+	}
 	return txns, nil
 }
 
