@@ -58,8 +58,8 @@ func (c *Chain) GetAddressMulti(hashes []string) ([]Address, error) {
 // Chain documentation can be found here
 // https://chain.com/docs#bitcoin-address.
 func (c *Chain) GetAddress(hash string) (Address, error) {
-	url, address := c.addressURL([]string{hash}), &Address{}
-	return *address, c.httpGetJSON(url, address)
+	url, address := c.addressURL([]string{hash}), Address{}
+	return address, c.httpGetJSON(url, &address)
 }
 
 func (c *Chain) addressTransactionsURL(hashes []string, limit int) string {
