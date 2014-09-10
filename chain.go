@@ -9,7 +9,7 @@ import (
 	"net/http"
 )
 
-// Network is used to let the Chain context know when network it should
+// Network is used to let the Chain context know which network it should
 // connect to.
 type Network string
 
