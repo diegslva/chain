@@ -2,10 +2,12 @@ package chain_test
 
 import (
 	"testing"
+
+	"github.com/qedus/chain"
 )
 
 func TestGetAddress(t *testing.T) {
-	c := newTestChain(t)
+	c := newChain(t, chain.TestNet3)
 
 	a, err := c.GetAddress("msk1uz21sUAXdmgqUiWvkRBLNfL1SXatyj")
 	if err != nil {
@@ -29,7 +31,7 @@ func TestGetAddressMulti(t *testing.T) {
 		"n4CyDypGn7jyfKamweA26gQyJGm2HwWbmE",
 	}
 
-	c := newTestChain(t)
+	c := newChain(t, chain.TestNet3)
 	addrs, err := c.GetAddressMulti(hashes)
 	if err != nil {
 		t.Fatal(err)
@@ -57,7 +59,7 @@ func TestGetAddressMulti(t *testing.T) {
 }
 
 func TestGetAddressError(t *testing.T) {
-	c := newTestChain(t)
+	c := newChain(t, chain.TestNet3)
 	if _, err := c.GetAddress("fake address"); err == nil {
 		t.Fatal("expected an error")
 	} else {
@@ -66,7 +68,7 @@ func TestGetAddressError(t *testing.T) {
 }
 
 func TestGetAddressTransactions(t *testing.T) {
-	c := newTestChain(t)
+	c := newChain(t, chain.TestNet3)
 	txns, err := c.GetAddressTransactions(
 		"n4CyDypGn7jyfKamweA26gQyJGm2HwWbmE", 1)
 	if err != nil {

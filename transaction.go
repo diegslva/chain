@@ -32,6 +32,7 @@ type Output struct {
 	Addresses          []string
 	Script             string
 	ScriptHex          string `json:"script_hex"`
+	ScriptType         string `json:"script_type"`
 	RequiredSignatures int64  `json:"required_signatures"`
 	Spent              bool
 
@@ -66,8 +67,8 @@ func (c *Chain) transactionURL(hash string) string {
 // Chain documentation can be found here
 // https://chain.com/docs#bitcoin-transaction.
 func (c *Chain) GetTransaction(hash string) (Transaction, error) {
-	url, tx := c.transactionURL(hash), &Transaction{}
-	return *tx, c.httpGetJSON(url, tx)
+	url, tx := c.transactionURL(hash), Transaction{}
+	return tx, c.httpGetJSON(url, &tx)
 }
 
 func (c *Chain) sendTransactionURL() string {

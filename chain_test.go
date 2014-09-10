@@ -9,7 +9,7 @@ import (
 	"github.com/qedus/chain"
 )
 
-func newTestChain(t *testing.T) *chain.Chain {
+func newChain(t *testing.T, net chain.Network) *chain.Chain {
 	apiKeyID := os.Getenv("CHAIN_API_KEY_ID")
 	apiKeySecret := os.Getenv("CHAIN_API_KEY_SECRET")
 
@@ -20,5 +20,5 @@ func newTestChain(t *testing.T) *chain.Chain {
 		t.Fatal("CHAIN_API_KEY_SECRET environment variable must be set")
 	}
 
-	return chain.New(http.DefaultClient, chain.TestNet3, apiKeyID, apiKeySecret)
+	return chain.New(http.DefaultClient, net, apiKeyID, apiKeySecret)
 }
