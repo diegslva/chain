@@ -2,7 +2,6 @@ package chain
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -86,10 +85,10 @@ func checkHTTPResponse(r *http.Response) error {
 		} else if jsonError.Error != "" {
 			message = jsonError.Error
 		}
-		return errors.New(message)
+		return fmt.Errorf("%s %s", r.Request.URL, message)
 	}
 
-	return fmt.Errorf("%s: %s: %.30q", r.Request.URL, r.Status, errData)
+	return fmt.Errorf("%s %s %s", r.Request.URL, r.Status, errData)
 }
 
 func (c *Chain) httpGetJSON(url string, v interface{}) error {
