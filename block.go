@@ -16,7 +16,7 @@ type Block struct {
 	MerkleRoot        string `json:"merkle_root"`
 	Time              string
 	Nonce             uint32
-	Difficulty        float64
+	Difficulty        float32
 	TransactionHashes []string `json:"transaction_hashes"`
 }
 
