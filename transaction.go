@@ -15,7 +15,7 @@ const GetTransactionMultiWorkers = 5
 type Input struct {
 	TransactionHash string `json:"transaction_hash"`
 	OutputHash      string `json:"output_hash"`
-	OutputIndex     int64  `json:"output_index"`
+	OutputIndex     uint32 `json:"output_index"`
 	Value           int64
 	Addresses       []string
 	ScriptSignature string `json:"script_signature"`
