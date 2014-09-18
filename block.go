@@ -12,6 +12,7 @@ type Block struct {
 	Hash              string
 	PreviousHash      string `json:"previous_block_hash"`
 	Height            int64
+	Version           int32
 	Confirmations     int64
 	MerkleRoot        string `json:"merkle_root"`
 	Time              string
