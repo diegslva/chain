@@ -7,11 +7,15 @@ import (
 )
 
 func TestGetBlockByHash(t *testing.T) {
-	c := newChain(t, chain.TestNet3)
-	hash := "0000000086907a79fb7f040893a332200df4580fe6a83b0ffe47f3527a5f753f"
+	c := newChain(t, chain.MainNet)
+	hash := "000000000000000003dd5aa0232cc4e800295c348bc5ea3dc2f7db63c481d352"
 	block, err := c.GetBlockByHash(hash)
 	if err != nil {
 		t.Fatal(err)
+	}
+
+	if block.Bits != "1824dbe9" {
+		t.Fatalf("incorrect Bits")
 	}
 
 	if len(block.TransactionHashes) == 0 {

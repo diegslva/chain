@@ -18,6 +18,7 @@ type Block struct {
 	Time              string
 	Nonce             uint32
 	Difficulty        float64
+	Bits              string
 	TransactionHashes []string `json:"transaction_hashes"`
 }
 
