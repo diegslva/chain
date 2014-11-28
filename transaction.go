@@ -50,11 +50,11 @@ type Transaction struct {
 	BlockHash     string `json:"block_hash"`
 	BlockHeight   int64  `json:"block_height"`
 	BlockTime     string `json:"block_time"`
+	Confirmations int64
 	Inputs        []Input
 	Outputs       []Output
 	Amount        int64
 	Fees          int64
-	Confirmations int64
 }
 
 func (c *Chain) transactionURL(hash string) string {

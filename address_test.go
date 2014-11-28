@@ -14,13 +14,13 @@ func TestGetAddress(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if a.Received < 34728440 {
+	if a.Total.Received < 34728440 {
 		t.Fatal("incorrect received value")
 	}
-	if a.Sent < 0 {
+	if a.Total.Sent < 0 {
 		t.Fatal("incorrect received value")
 	}
-	if a.Received-a.Sent != a.Balance {
+	if a.Total.Received-a.Total.Sent != a.Total.Balance {
 		t.Fatal("incorrect balance")
 	}
 }
@@ -37,23 +37,23 @@ func TestGetAddressMulti(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if addrs[0].Received < 34728440 {
+	if addrs[0].Total.Received < 34728440 {
 		t.Fatal("incorrect received value")
 	}
-	if addrs[0].Sent < 0 {
+	if addrs[0].Total.Sent < 0 {
 		t.Fatal("incorrect received value")
 	}
-	if addrs[0].Received-addrs[0].Sent != addrs[0].Balance {
+	if addrs[0].Total.Received-addrs[0].Total.Sent != addrs[0].Total.Balance {
 		t.Fatal("incorrect balance")
 	}
 
-	if addrs[1].Received < 30289051865 {
+	if addrs[1].Total.Received < 30289051865 {
 		t.Fatal("incorrect received value")
 	}
-	if addrs[1].Sent < 30282061865 {
+	if addrs[1].Total.Sent < 30282061865 {
 		t.Fatal("incorrect received value")
 	}
-	if addrs[1].Received-addrs[1].Sent != addrs[1].Balance {
+	if addrs[1].Total.Received-addrs[1].Total.Sent != addrs[1].Total.Balance {
 		t.Fatal("incorrect balance")
 	}
 }

@@ -25,13 +25,17 @@ const (
 // Chain documentation can be found here
 // https://chain.com/docs#object-bitcoin-address.
 type Address struct {
-	Hash                string
-	Balance             int64
-	Received            int64
-	Sent                int64
-	UnconfirmedReceived int64 `json:"unconfirmed_received"`
-	UnconfirmedSent     int64 `json:"unconfirmed_sent"`
-	UnconfirmedBalance  int64 `json:"unconfirmed_balance"`
+	Address string
+	Total   struct {
+		Balance  int64
+		Received int64
+		Sent     int64
+	}
+	Confirmed struct {
+		Balance  int64
+		Received int64
+		Sent     int64
+	}
 }
 
 func (c *Chain) addressURL(hashes []string) string {
@@ -58,8 +62,8 @@ func (c *Chain) GetAddressMulti(hashes []string) ([]Address, error) {
 // Chain documentation can be found here
 // https://chain.com/docs#bitcoin-address.
 func (c *Chain) GetAddress(hash string) (Address, error) {
-	url, address := c.addressURL([]string{hash}), Address{}
-	return address, c.httpGetJSON(url, &address)
+	url, addresses := c.addressURL([]string{hash}), make([]Address, 1)
+	return addresses[0], c.httpGetJSON(url, &addresses)
 }
 
 func (c *Chain) addressTransactionsURL(hashes []string, limit int) string {

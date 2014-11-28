@@ -8,12 +8,13 @@ import (
 	"net/http"
 )
 
+const baseURL = "https://api.chain.com/v2"
+
 // Network is used to let the Chain context know which network it should
 // connect to.
 type Network string
 
 const (
-	baseURL = "https://api.chain.com/v1"
 	// TestNet3 is used to make the Chain context connect to the Bitcon
 	// TestNet3 network.
 	TestNet3 Network = "testnet3"
@@ -64,7 +65,8 @@ func New(c *http.Client, n Network, apiKeyID, apiKeySecret string) *Chain {
 }
 
 func checkHTTPResponse(r *http.Response) error {
-	if r.StatusCode == http.StatusOK {
+	switch r.StatusCode {
+	case http.StatusOK, http.StatusCreated:
 		return nil
 	}
 
